@@ -4,21 +4,22 @@ package com.brenohff.whazzup.whazzup.enums;
  * Created by breno.franco on 03/01/2019
  */
 
-public class PilotRating {
+public enum PilotRating {
 
-    /**
-     * Value		Description
-     * 1		Observer
-     * 2		Basic Flight Student (FS1)
-     * 3		Flight Student (FS2)
-     * 4		Advanced Flight Student (FS3)
-     * 5		Private Pilot (PP)
-     * 6		Senior Private Pilot (SPP)
-     * 7		Commercial Pilot (CP)
-     * 8		Airline Transport Pilot (ATP)
-     * 9		Senior Flight Instructor (SFI)
-     * 10		Chief Flight Instructor (CFI)
-     *
-     */
+    OBSERVER(1),
+    FS1(2),
+    FS2(3),
+    FS3(4),
+    PP(5),
+    SPP(6),
+    CP(7),
+    ATP(8),
+    SFI(9),
+    CFI(10);
 
+    private final Integer pilotRating;
+
+    PilotRating(Integer pilotRating) {
+        this.pilotRating = pilotRating;
+    }
 }

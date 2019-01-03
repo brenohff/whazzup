@@ -6,6 +6,20 @@ package com.brenohff.whazzup.whazzup.enums;
 
 public enum ClientType {
 
+    ATC("ATC"),
+    PILOT("PILOT"),
+    FOLME("FOLME");
+
+    private final String clientType;
+
+    ClientType(String clientType) {
+        this.clientType = clientType;
+    }
+
+    public String getClientType() {
+        return clientType;
+    }
+
     /**
      *
      * Client	Type

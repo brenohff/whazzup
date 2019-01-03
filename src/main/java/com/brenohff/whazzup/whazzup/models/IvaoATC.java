@@ -13,5 +13,7 @@ public class IvaoATC extends IvaoClient{
     private String atis;
     private String atisTime;
 
+    public IvaoATC(String[] atcData) {
 
+    }
 }

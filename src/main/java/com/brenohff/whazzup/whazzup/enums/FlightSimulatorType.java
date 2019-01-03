@@ -6,30 +6,32 @@ package com.brenohff.whazzup.whazzup.enums;
 
 public enum FlightSimulatorType {
 
-    /**
-     * Value		Description
-     * 0		Unknown
-     * 1		Microsoft Flight Simulator 95
-     * 2		Microsoft Flight Simulator 98
-     * 3		Microsoft Combat Flight Simulator
-     * 4		Microsoft Flight Simulator 2000
-     * 5		Microsoft Combat Flight Simulator 2
-     * 6		Microsoft Flight Simulator 2002
-     * 7		Microsoft Combat Flight Simulator 3
-     * 8		Microsoft Flight Simulator 2004
-     * 9		Microsoft Flight Simulator X
-     * 11		X-Plane (unknown version)
-     * 12		X-Plane 8.x
-     * 13		X-Plane 9.x
-     * 14		X-Plane 10.x
-     * 15		PS1
-     * 16		X-Plane 11.x
-     * 17		X-Plane 12.x
-     * 20		Fly!
-     * 21		Fly! 2
-     * 25		FlightGear
-     * 30		Prepar3D 1.x
-     *
-     */
+    Unknown(0),
+    FS95(1),
+    FS98(2),
+    CFS(3),
+    FS2000(4),
+    CFS2(5),
+    FS2002(6),
+    CFS3(7),
+    FS2004(8),
+    FSX(9),
+    XPlaneUnknown(11),
+    XPlane8(12),
+    XPlane9(13),
+    XPlane10(14),
+    PS1(15),
+    XPlane11(16),
+    XPlane12(17),
+    Fly(20),
+    Fly2(21),
+    FlightGear(25),
+    Prepar3D1(30);
+
+    private final Integer flightSimulatorType;
+
+    FlightSimulatorType(Integer flightSimulatorType) {
+        this.flightSimulatorType = flightSimulatorType;
+    }
 
 }
