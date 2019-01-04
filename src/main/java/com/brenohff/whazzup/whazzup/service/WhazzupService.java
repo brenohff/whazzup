@@ -1,6 +1,9 @@
 package com.brenohff.whazzup.whazzup.service;
 
+import com.brenohff.whazzup.whazzup.enums.AtcRating;
+import com.brenohff.whazzup.whazzup.models.IvaoATC;
 import com.brenohff.whazzup.whazzup.models.IvaoPilot;
+import com.brenohff.whazzup.whazzup.models.WhazzupFile;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,23 +21,25 @@ import java.util.List;
 @Service
 public class WhazzupService {
 
-    public List<IvaoPilot> getFileFromUrl() {
+    private WhazzupFile getFileFromUrl() {
 
-        List<IvaoPilot> pilotList = new ArrayList<>();
+        WhazzupFile whazzupFile;
 
         try {
             URL url = new URL("http://api.ivao.aero/getdata/whazzup/whazzup.txt");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-            pilotList = setObject(IOUtils.toString(in));
+            whazzupFile = setObject(IOUtils.toString(in));
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
+            whazzupFile = new WhazzupFile();
         }
 
-        return pilotList;
+        return whazzupFile;
+
     }
 
-    private List<IvaoPilot> setObject(String line) {
+    private WhazzupFile setObject(String line) {
         Integer generalDataBegin = line.indexOf("!GENERAL");
         Integer clientsDataBegin = line.indexOf("!CLIENTS");
         Integer airportsDataBegin = line.indexOf("!AIRPORTS");
@@ -45,21 +50,59 @@ public class WhazzupService {
         String[] airportsData = line.substring(airportsDataBegin + 10, serversDataBegin).split("\n");
         String[] serversData = line.substring(serversDataBegin + 9).split("\n");
 
-        List<IvaoPilot> pilotList = new ArrayList<>();
+        return new WhazzupFile(generalData, clientsData, airportsData, serversData);
 
-        for (String client : clientsData) {
-            String[] newClientData = client.split(":");
-            if (newClientData[3].equalsIgnoreCase("PILOT")) {
-                pilotList.add(new IvaoPilot(newClientData));
-            }
+    }
+
+    public WhazzupFile getAtcOrPilotList(final String listType) {
+        WhazzupFile whazzupFile = getFileFromUrl();
+        List<IvaoPilot> pilotList = new ArrayList<>();
+        List<IvaoATC> atcList = new ArrayList<>();
+
+        switch (listType) {
+            case "PILOT":
+                for (String client : whazzupFile.getClientsData()) {
+                    String[] newClientData = client.split(":");
+                    if (newClientData[3].equalsIgnoreCase("PILOT")) {
+                        pilotList.add(new IvaoPilot(newClientData));
+                    }
+                }
+
+                whazzupFile.setIvaoPilots(pilotList);
+                break;
+
+            case "ATC":
+                for (String client : whazzupFile.getClientsData()) {
+                    String[] newClientData = client.split(":");
+                    if (newClientData[3].equalsIgnoreCase("ATC")) {
+                        atcList.add(new IvaoATC(newClientData));
+                    }
+                }
+
+                whazzupFile.setIvaoATCS(atcList);
+                break;
+
+            case "BOTH":
+                for (String client : whazzupFile.getClientsData()) {
+                    String[] newClientData = client.split(":");
+                    if (newClientData[3].equalsIgnoreCase("PILOT")) {
+                        pilotList.add(new IvaoPilot(newClientData));
+                    } else {
+                        atcList.add(new IvaoATC(newClientData));
+                    }
+                }
+
+                whazzupFile.setIvaoPilots(pilotList);
+                whazzupFile.setIvaoATCS(atcList);
+                break;
         }
 
-        return pilotList;
+        return whazzupFile;
     }
 
     public static void main(String[] args) {
         WhazzupService service = new WhazzupService();
-        service.getFileFromUrl();
+        service.getAtcOrPilotList("ATC");
     }
 
 }

@@ -1,16 +1,13 @@
 package com.brenohff.whazzup.whazzup.models;
 
-import com.brenohff.whazzup.whazzup.enums.ClientType;
-import com.brenohff.whazzup.whazzup.enums.FlightSimulatorType;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.brenohff.whazzup.whazzup.enums.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Created by breno.franco on 03/01/2019
  */
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class IvaoPilot extends IvaoClient {
 
     private Integer groundspeed;
@@ -19,10 +16,10 @@ public class IvaoPilot extends IvaoClient {
     private String cruisingLevel;
     private String departureAerodrome;
     private String destinationAerodrome;
+    private PilotRating pilotRating;
     private String transponderCode;
     private String heading;
     private FlightSimulatorType simulator;
-    private String plane;
     private boolean onGround;
 
     private String revision;
@@ -40,26 +37,23 @@ public class IvaoPilot extends IvaoClient {
     private String typeOfFlight;
     private String personsOnBoard;
 
-    DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-
     public IvaoPilot(String[] pilotData) {
         setCallsign(pilotData[0]);
         setVid(pilotData[1]);
         setName(pilotData[2]);
         setClient(ClientType.valueOf(pilotData[3]));
-        setLatitude(Double.parseDouble(pilotData[5]));
-        setLongitude(Double.parseDouble(pilotData[6]));
-        setAltitude(Integer.parseInt(pilotData[7]));
+        setLatitude(pilotData[5].isEmpty() ? 0.0 : Double.parseDouble(pilotData[5]));
+        setLongitude(pilotData[6].isEmpty() ? 0.0 : Double.parseDouble(pilotData[6]));
+        setAltitude(pilotData[7].isEmpty() ? 0 : Integer.parseInt(pilotData[7]));
 
-        this.groundspeed = Integer.parseInt(pilotData[8]);
+        this.groundspeed = pilotData[8].isEmpty() ? 0 : Integer.parseInt(pilotData[8]);
         this.aircraft = pilotData[9].isEmpty() ? "" : (pilotData[9].split("/"))[1];
         this.cruisingSpeed = pilotData[10];
         this.departureAerodrome = pilotData[11];
         this.cruisingLevel = pilotData[12];
         this.destinationAerodrome = pilotData[13];
 
-        setServer(pilotData[14]);
-        setProtocol(pilotData[15]);
+        this.pilotRating = PilotRating.fromString(pilotData[16]);
 
         this.transponderCode = pilotData[17];
         this.revision = pilotData[20];
@@ -74,21 +68,16 @@ public class IvaoPilot extends IvaoClient {
         this.otherInfo = pilotData[29];
         this.route = pilotData[30];
 
-        try {
-            setConnectionTime(dateFormat.parse(pilotData[37]));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         setSoftwareName(pilotData[38]);
         setSoftwareVersion(pilotData[39]);
-//        setAdministrativeVersion(AdministrativeRating.valueOf(pilotData[40]));
+        setAdministrativeVersion(AdministrativeRating.fromString(pilotData[40]));
 
         this.alternateAerodrome2nd = pilotData[42];
         this.typeOfFlight = pilotData[43];
         this.personsOnBoard = pilotData[44];
         this.heading = pilotData[45];
         this.onGround = pilotData[46].equals("1");
-//        this.simulator = FlightSimulatorType.valueOf(pilotData[47]);
+        this.simulator = FlightSimulatorType.fromString(pilotData[47]);
 
     }
 
@@ -164,14 +153,6 @@ public class IvaoPilot extends IvaoClient {
 
     public void setSimulator(FlightSimulatorType simulator) {
         this.simulator = simulator;
-    }
-
-    public String getPlane() {
-        return plane;
-    }
-
-    public void setPlane(String plane) {
-        this.plane = plane;
     }
 
     public boolean isOnGround() {
@@ -294,12 +275,12 @@ public class IvaoPilot extends IvaoClient {
         this.personsOnBoard = personsOnBoard;
     }
 
-    public DateFormat getDateFormat() {
-        return dateFormat;
+    public PilotRating getPilotRating() {
+        return pilotRating;
     }
 
-    public void setDateFormat(DateFormat dateFormat) {
-        this.dateFormat = dateFormat;
+    public void setPilotRating(PilotRating pilotRating) {
+        this.pilotRating = pilotRating;
     }
 
     //endregion

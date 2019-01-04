@@ -4,22 +4,32 @@ package com.brenohff.whazzup.whazzup.enums;
  * Created by breno.franco on 03/01/2019
  */
 
-public class AtcRating {
+public enum AtcRating {
 
-    /**
-     *
-     * Value		Description
-     * 1		Observer
-     * 2		ATC Applicant (AS1)
-     * 3		ATC Trainee (AS2)
-     * 4		Advanced ATC Trainee (AS3)
-     * 5		Aerodrome Controller (ADC)
-     * 6		Approach Controller (APC)
-     * 7		Center Controller (ACC)
-     * 8		Senior Controller (SEC)
-     * 9		Senior ATC Instructor (SAI)
-     * 10		Chief ATC Instructor (CAI)
-     *
-     */
+    Observer("1"),
+    AS1("2"),
+    AS2("3"),
+    AS3("4"),
+    ADC("5"),
+    APC("6"),
+    ACC("7"),
+    SEC("8"),
+    SAI("9"),
+    CAI("10");
+
+    private final String atcRating;
+
+    AtcRating(String atcRating) {
+        this.atcRating = atcRating;
+    }
+
+    public static AtcRating fromString(String text) {
+        for (AtcRating b : AtcRating.values()) {
+            if (b.atcRating.equalsIgnoreCase(text)) {
+                return b;
+            }
+        }
+        return null;
+    }
 
 }

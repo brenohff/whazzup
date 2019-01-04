@@ -2,17 +2,17 @@ package com.brenohff.whazzup.whazzup.models;
 
 import com.brenohff.whazzup.whazzup.enums.AdministrativeRating;
 import com.brenohff.whazzup.whazzup.enums.ClientType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by breno.franco on 03/01/2019
  */
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class IvaoClient implements Serializable {
     private static final long serialVersionUID = 1L;
-
 
     private String callsign;
     private String vid;
@@ -21,10 +21,6 @@ public class IvaoClient implements Serializable {
     private Double latitude;
     private Double longitude;
     private Integer altitude;
-    private String server;
-    private String protocol;
-
-    private Date connectionTime;
     private String softwareName;
     private String softwareVersion;
     private AdministrativeRating administrativeVersion;
@@ -83,30 +79,6 @@ public class IvaoClient implements Serializable {
 
     public void setAltitude(Integer altitude) {
         this.altitude = altitude;
-    }
-
-    public String getServer() {
-        return server;
-    }
-
-    public void setServer(String server) {
-        this.server = server;
-    }
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public Date getConnectionTime() {
-        return connectionTime;
-    }
-
-    public void setConnectionTime(Date connectionTime) {
-        this.connectionTime = connectionTime;
     }
 
     public String getSoftwareName() {

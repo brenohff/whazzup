@@ -6,16 +6,25 @@ package com.brenohff.whazzup.whazzup.enums;
 
 public enum AdministrativeRating {
 
-    Suspended(0),
-    Observer(1),
-    User(2),
-    Supervisor(11),
-    Administrator(12);
+    Suspended("0"),
+    Observer("1"),
+    User("2"),
+    Supervisor("11"),
+    Administrator("12");
 
-    private final Integer administrativeRating;
+    private final String administrativeRating;
 
-    AdministrativeRating(Integer administrativeRating) {
+    AdministrativeRating(String administrativeRating) {
         this.administrativeRating = administrativeRating;
+    }
+
+    public static AdministrativeRating fromString(String text) {
+        for (AdministrativeRating b : AdministrativeRating.values()) {
+            if (b.administrativeRating.equalsIgnoreCase(text)) {
+                return b;
+            }
+        }
+        return null;
     }
 
 }

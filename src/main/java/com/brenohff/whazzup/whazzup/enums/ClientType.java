@@ -19,14 +19,4 @@ public enum ClientType {
     public String getClientType() {
         return clientType;
     }
-
-    /**
-     *
-     * Client	Type
-     * Value	Description
-     * ATC	    ATC or Observer connections
-     * PILOT	Pilot connections
-     * FOLME	Follow Me Car connections
-     *
-     */
 }
